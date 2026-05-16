@@ -1,0 +1,6 @@
+{
+  "name": "QuestHabit: Gamified Tracker",
+  "description": "A smart habit tracker with RPG-style leveling, XP progress bars, and streak-based questing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

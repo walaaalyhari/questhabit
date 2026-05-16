@@ -1,0 +1,138 @@
+import { X, Archive, ChevronRight } from 'lucide-react';
+import { motion } from 'motion/react';
+
+interface SettingsModalProps {
+  isSettingsOpen: boolean;
+  setIsSettingsOpen: (open: boolean) => void;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+  userName: string;
+  userAvatar: string;
+  saveProfile: (name: string, avatar: string) => void;
+  setIsArchiveOpen: (open: boolean) => void;
+  resetData: () => void;
+  setIsSignedIn: (signedIn: boolean) => void;
+}
+
+/**
+ * SettingsModal provides the configuration interface for the user,
+ * allowing profile edits, dark mode toggles, and data management.
+ */
+export default function SettingsModal({
+  isSettingsOpen, setIsSettingsOpen, isDarkMode, toggleDarkMode,
+  userName, userAvatar, saveProfile, setIsArchiveOpen, resetData, setIsSignedIn
+}: SettingsModalProps) {
+  if (!isSettingsOpen) return null;
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={() => setIsSettingsOpen(false)}
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] pointer-events-auto"
+      />
+      <motion.div
+        initial={{ opacity: 0, x: '-100%' }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: '-100%' }}
+        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        className={`fixed left-0 top-0 bottom-0 w-[85%] max-w-sm p-6 z-[100] shadow-2xl overflow-y-auto ${isDarkMode ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-800'}`}
+      >
+        <div className="flex items-center justify-between mb-8">
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Settings</h2>
+          <button onClick={() => setIsSettingsOpen(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-slate-800 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-400 hover:text-slate-700'}`}>
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="space-y-8 pb-12">
+          {/* Profile Edit */}
+          <div>
+            <h3 className={`text-[10px] font-bold uppercase tracking-widest mb-4 ${isDarkMode ? 'text-slate-500' : 'text-slate-500'}`}>Edit Profile</h3>
+            <div className="flex flex-col gap-3">
+              <div>
+                <label className={`block text-xs mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Avatar (Emoji)</label>
+                <input 
+                  type="text" 
+                  maxLength={2}
+                  value={userAvatar}
+                  onChange={(e) => saveProfile(userName, e.target.value)}
+                  className={`w-full px-3 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 outline-none transition-colors ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-800'}`}
+                />
+              </div>
+              <div>
+                <label className={`block text-xs mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Display Name</label>
+                <input 
+                  type="text" 
+                  value={userName}
+                  onChange={(e) => saveProfile(e.target.value, userAvatar)}
+                  className={`w-full px-3 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 outline-none transition-colors ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-800'}`}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Preferences */}
+          <div className={`pt-6 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+            <h3 className={`text-[10px] font-bold uppercase tracking-widest mb-4 ${isDarkMode ? 'text-slate-500' : 'text-slate-500'}`}>Preferences</h3>
+            <div className="flex items-center justify-between">
+              <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Dark Mode</span>
+              <button 
+                onClick={toggleDarkMode}
+                className={`w-12 h-6 rounded-full p-1 transition-colors ${isDarkMode ? 'bg-emerald-600' : 'bg-slate-300'}`}
+              >
+                <motion.div 
+                   className={`w-4 h-4 bg-white rounded-full shadow-sm`}
+                   animate={{ x: isDarkMode ? 24 : 0 }}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Data */}
+          <div className={`pt-6 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+            <h3 className={`text-[10px] font-bold uppercase tracking-widest mb-4 ${isDarkMode ? 'text-slate-500' : 'text-slate-500'}`}>Data</h3>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => setIsArchiveOpen(true)}
+                className={`w-full text-left p-3 rounded-lg border transition-colors text-sm font-bold flex items-center justify-between ${isDarkMode ? 'bg-slate-800/50 border-slate-700/50 text-slate-200 hover:bg-slate-800' : 'bg-slate-50 border-slate-100 text-slate-700 hover:bg-slate-100'}`}
+              >
+                Archived Quests
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Danger Zone */}
+          <div className={`pt-6 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+            <h3 className={`text-[10px] font-bold uppercase tracking-widest mb-4 text-red-500`}>Danger Zone</h3>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  if (window.confirm("Are you sure you want to erase all data and start over? This cannot be undone.")) {
+                    resetData();
+                    localStorage.clear();
+                    setIsSignedIn(false);
+                    saveProfile('Player', '🧙‍♀️');
+                    setIsSettingsOpen(false);
+                  }
+                }}
+                className="w-full text-left p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-colors text-sm font-bold flex items-center justify-between"
+              >
+                Reset All Data
+                <Archive className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className={`pt-6 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+            <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isDarkMode ? 'text-slate-600' : 'text-slate-500'}`}>App Info</h3>
+            <p className={`text-xs ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Version 1.0.0</p>
+          </div>
+        </div>
+      </motion.div>
+    </>
+  );
+}
