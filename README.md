@@ -2,6 +2,8 @@
 
 Welcome to **QuestHabit**, a beautiful, gamified task and habit tracker built with React. Level up your life by turning your mundane daily tasks into epic RPG quests!
 
+🌟 **Play it live here:** [https://quest-habit.netlify.app](https://quest-habit.netlify.app)
+
 ## 🎮 Features
 
 QuestHabit uses core RPG mechanics to motivate you to stay consistent:
