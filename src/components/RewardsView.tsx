@@ -1,12 +1,14 @@
 import { UserStats } from '../types';
 
+// Define the properties expected by the RewardsView component
 interface RewardsViewProps {
-  isDarkMode: boolean;
-  stats: UserStats;
-  spendCoins: (amount: number) => void;
-  spendDiamonds: (amount: number) => void;
+  isDarkMode: boolean; // Determines the active styling theme
+  stats: UserStats; // The player's current RPG statistics, needed to check currency balances
+  spendCoins: (amount: number) => void; // Callback to deduct coins upon purchase
+  spendDiamonds: (amount: number) => void; // Callback to deduct diamonds upon purchase
 }
 
+// Hardcoded list of available rewards in the shop
 const REWARDS = [
   { id: 1, name: 'Unhealthy Snack', cost: 15, currency: 'coins', icon: '🍫', desc: 'A bit of indulgence' },
   { id: 2, name: 'Game Time!', cost: 45, currency: 'coins', icon: '🎮', desc: '2 to 3 hours' },
@@ -25,6 +27,8 @@ const REWARDS = [
 export default function RewardsView({ isDarkMode, stats, spendCoins, spendDiamonds }: RewardsViewProps) {
   return (
     <div className="flex flex-col gap-4 max-w-2xl mx-auto">
+      
+      {/* Wallet / Currency Overview Panel */}
       <div className={`p-4 rounded-xl shadow-sm border flex items-center justify-between ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
         <div>
           <h2 className={`text-sm font-bold flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
@@ -32,19 +36,24 @@ export default function RewardsView({ isDarkMode, stats, spendCoins, spendDiamon
           </h2>
           <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Rewards are treats for yourself after gaining enough coins or gems from doing quests.</p>
         </div>
+        
+        {/* Current Balances */}
         <div className="flex flex-col gap-1 items-end shrink-0">
           <span className="text-amber-500 font-bold flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded-md text-xs">🪙 {stats.coins}</span>
           <span className="text-cyan-400 font-bold flex items-center gap-1 bg-cyan-400/10 px-2 py-0.5 rounded-md text-xs">💎 {stats.diamonds}</span>
         </div>
       </div>
       
+      {/* Rewards Shop Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {REWARDS.map(reward => {
+          // Check if the user has enough of the specific currency to afford this reward
           const canAfford = reward.currency === 'coins' ? stats.coins >= reward.cost : stats.diamonds >= reward.cost;
+          
           return (
             <button 
               key={reward.id}
-              disabled={!canAfford}
+              disabled={!canAfford} // Disable button if player can't afford it
               onClick={() => reward.currency === 'coins' ? spendCoins(reward.cost) : spendDiamonds(reward.cost)}
               className={`p-3 rounded-xl border flex flex-col justify-between h-28 hover:border-emerald-300 transition-colors cursor-pointer disabled:opacity-50 disabled:grayscale relative group text-left active:scale-[0.98] ${isDarkMode ? 'bg-slate-900 border-slate-800 hover:bg-slate-800' : 'bg-white border-slate-200'}`}
             >
@@ -53,6 +62,8 @@ export default function RewardsView({ isDarkMode, stats, spendCoins, spendDiamon
                 <div className={`text-xs font-bold leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{reward.name}</div>
                 <div className={`text-[10px] truncate mt-0.5 ${isDarkMode ? 'text-slate-500' : 'text-slate-500'}`}>{reward.desc}</div>
               </div>
+              
+              {/* Cost Badge */}
               <div className={`absolute top-2 right-2 font-bold text-[10px] px-1.5 py-0.5 rounded flex items-center gap-1 border ${
                 reward.currency === 'coins'
                   ? (isDarkMode ? 'bg-amber-900/30 text-amber-400 border-amber-900/50' : 'bg-amber-50 text-amber-600 border-amber-200')
