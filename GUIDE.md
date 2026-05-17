@@ -2,7 +2,21 @@
 
 Welcome to the official player guide for **QuestHabit**. This document will walk you through the core mechanics of the app so you can start leveling up your real life!
 
-![QuestHabit Feature Demo](/C:/Users/0cean/.gemini/antigravity/brain/4c012ed1-7c9d-4d11-8066-52ce20f2ae17/questhabit_demo_1778972092183.webp)
+---
+
+## 🎭 QuestHabit Feature Demo
+
+
+<img width="480" height="270" alt="intro" src="https://github.com/user-attachments/assets/5d231afc-4760-4b63-a495-84ff05ea96c1" />
+<img width="480" height="270" alt="Change profile" src="https://github.com/user-attachments/assets/c74ad4ba-0eb5-428b-afb5-3656cbff63e8" />
+<img width="480" height="270" alt="Dark mode" src="https://github.com/user-attachments/assets/839cb2c2-95db-47f8-9f1d-429123b90c10" />
+<img width="480" height="270" alt="Add quests" src="https://github.com/user-attachments/assets/f190bbf6-d905-4a75-99db-018139c7318c" />
+<img width="480" height="270" alt="Rewards" src="https://github.com/user-attachments/assets/6606b35a-a318-43b8-a030-0554b9568fa3" />
+<img width="480" height="270" alt="Add custom quests" src="https://github.com/user-attachments/assets/375f36d1-2e0e-4f74-bdc4-3fc1239ae37b" />
+
+
+
+
 
 ---
 
