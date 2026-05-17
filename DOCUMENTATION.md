@@ -1,5 +1,3 @@
-Markdown
-
 # QuestHabit
 
 **Name:** Walaa Abdulghani Qasem Alyhari
@@ -72,7 +70,7 @@ Because the app runs entirely in-browser without a server cron job, it dynamical
 
 Below is the verified project tree structure representing the codebase organization. This layout highlights the clean separation between custom React hooks, presentational components, and localized utility math.  
 
-```
+```text
 src/
 ├── components/
 │   ├── AddHabitModal.tsx
